@@ -17,3 +17,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('institusi', 'InstitusiController@index');
 Route::post('register', 'RegisterController@submit');
 Route::post('login', 'AuthController@login');
+Route::get('institusi/bank/{id}', 'InstitusiController@getBank');
