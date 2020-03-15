@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -10,13 +9,15 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    protected $table = 'user';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'hp', 'institusi_id', 'nik', 'password',
     ];
 
     /**
@@ -36,4 +37,24 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Relation with institusi
+     */
+    public function institusi()
+    {
+        return $this->hasOne('App\Models\Instititusi', 'id', 'institusi_id');
+    }
+
+    public static function getValidationRules()
+    {
+        $rules = [
+            'hp' => 'required|unique:user,hp',
+            'institusi_id' => 'required',
+            'nik' => 'required',
+            'password' => 'required',
+        ];
+
+        return $rules;
+    }
 }

@@ -10,4 +10,26 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    protected function submitAction($req_params, $validator, callable $submitFunction)
+    {
+        if ($validator->fails()) {
+            return response()->json(
+                $validator->messages(), 500
+            );
+        } else {
+            try {
+                $submitFunction($req_params);
+            } catch (\Exception $e) {
+
+                return response()->json(
+                    ['message' => $e->getMessage()], 500
+                );
+            }
+
+            return response()->json(
+                ['success' => true]
+            );
+        }
+    }
 }
