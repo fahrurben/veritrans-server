@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('institusi', 'InstitusiController@index');
 Route::post('register', 'RegisterController@submit');
+Route::post('login', 'AuthController@login');

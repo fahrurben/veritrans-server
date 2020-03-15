@@ -12,6 +12,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -28,6 +29,7 @@ class RegisterController extends Controller
             $user = new User();
             $user->fill($req_params);
             $user->password = Hash::make($req_params['password']);
+            $user->api_token = Str::random(60);
             $user->save();
         });
     }
