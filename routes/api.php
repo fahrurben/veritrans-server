@@ -18,3 +18,5 @@ Route::get('institusi', 'InstitusiController@index');
 Route::post('register', 'RegisterController@submit');
 Route::post('login', 'AuthController@login');
 Route::get('institusi/bank/{id}', 'InstitusiController@getBank');
+Route::middleware('auth:api')->post('transaction', 'TransactionController@create');
+Route::middleware('auth:api')->get('transaction', 'TransactionController@index');
