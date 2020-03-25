@@ -28,13 +28,17 @@ class TransactionController extends Controller
         $rules = Transaction::getValidationRules();
 
         $req_params = request()->all();
+        $req_params['user_id'] = $user->id;
         $validator = Validator::make($req_params, $rules);
 
-        return $this->submitAction($req_params, $validator, function($req_params) use ($user) {
-            $trans = new Transaction();
-            $trans->user_id = $user->id;
-            $trans->fill($req_params);
-            $trans->save();
-        });
+        return $this->submitAction(
+            $req_params,
+            $validator,
+            function($req_params) use ($user) {
+                $trans = new Transaction();
+                $trans->fill($req_params);
+                $trans->save();
+            },
+            'Transaksi berhasil disubmit, dan akan segera diverifikasi');
     }
 }

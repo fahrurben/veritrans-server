@@ -23,6 +23,8 @@ class Transaction extends Model
         'status',
     ];
 
+    protected $appends = ['status_name', 'bank_name'];
+
     /**
      * Relation with user
      */
@@ -39,6 +41,19 @@ class Transaction extends Model
         return $this->hasOne('App\Models\Bank', 'id', 'bank_id');
     }
 
+    public function getStatusNameAttribute(){
+        $status_name = '';
+        if ($this->status == 0) $status_name = 'Sedang diverifikasi';
+        else if ($this->status == 1) $status_name = 'Terverifikasi';
+        else if ($this->status == -1) $status_name = 'Gagal diverifikasi';
+
+        return $status_name;
+    }
+
+    public function getBankNameAttribute()
+    {
+        return $this->bank->name;
+    }
 
     public static function getValidationRules()
     {

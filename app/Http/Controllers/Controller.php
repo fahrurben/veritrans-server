@@ -11,7 +11,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected function submitAction($req_params, $validator, callable $submitFunction)
+    protected function submitAction($req_params, $validator, callable $submitFunction, $successMessage = '')
     {
         if ($validator->fails()) {
             return response()->json(
@@ -28,7 +28,10 @@ class Controller extends BaseController
             }
 
             return response()->json(
-                ['success' => true]
+                [
+                    'success' => true,
+                    'message' => $successMessage,
+                ]
             );
         }
     }
